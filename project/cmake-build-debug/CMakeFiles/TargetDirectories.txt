@@ -1,4 +1,0 @@
-/Users/kimht4040/Desktop/code/miniproject/project/cmake-build-debug/CMakeFiles/project.dir
-/Users/kimht4040/Desktop/code/miniproject/project/cmake-build-debug/CMakeFiles/bitmap_app.dir
-/Users/kimht4040/Desktop/code/miniproject/project/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/kimht4040/Desktop/code/miniproject/project/cmake-build-debug/CMakeFiles/rebuild_cache.dir
