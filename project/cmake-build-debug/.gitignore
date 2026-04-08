@@ -1,0 +1,23 @@
+# --- Multimedia Assets ---
+# 이펙트 이미지 및 스프라이트 시트
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# 음원 및 키 사운드 파일 (용량이 크므로 제외)
+*.mp3
+*.wav
+*.ogg
+*.flac
+
+# --- IDE & Build Files (CLion/CMake) ---
+.idea/
+cmake-build-debug/
+cmake-build-release/
+out/
+build/
+
+# --- OS Specific ---
+.DS_Store
+Thumbs.db
