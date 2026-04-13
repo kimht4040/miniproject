@@ -632,8 +632,6 @@ GameState PlayGame(sf::RenderWindow& window, const string &osuFile, const string
 
 };
 GameState ShowResult(sf::RenderWindow& window, int score, sf::Font &font) {
-
-    score = 23911;
     const std::string currentSongKey = result.selectedOsuPath.empty()
         ? result.filename
         : result.selectedOsuPath.string();
