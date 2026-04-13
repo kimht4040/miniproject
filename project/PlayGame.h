@@ -49,6 +49,7 @@ enum class JudgeResult { Perfect,Great, Good, None, Miss };
 class Judgment {
     int score = 0;
     int combo = 0;
+    int hp = 100;
 
 public:
     JudgeResult judge(long long key_time, long long map_time);
@@ -56,6 +57,7 @@ public:
     int getScore() const;
     int getCombo() const;
     static void update(int dt, sf::Text& text);
+    int getHp() const;
 };
 
 class Gear {

@@ -15,6 +15,8 @@ include_directories(${SFML_DIR}/include ${BASS_INC})
 set(ROOT_ASSETS
         "effect.png"
         "output.wav"
+        ShowResult.cpp
+        ShowResult.h
 )
 
 # 3. 실행 파일 생성
@@ -41,22 +43,20 @@ set_target_properties(osuProject PROPERTIES
         MACOSX_BUNDLE_BUNDLE_NAME "RhythmGame"
 )
 
-# 6. [핵심] 폴더 구조를 유지하며 통째로 복사하기 ⭐
-# 빌드가 끝난 후, 폴더 자체를 Contents/Resources 안으로 복사합니다.
 add_custom_command(TARGET osuProject POST_BUILD
-        # 1) 기존 Resources 폴더 안에 osu, font 폴더가 있다면 삭제(클린 빌드 효과)
+
         COMMAND ${CMAKE_COMMAND} -E rm -rf "$<TARGET_BUNDLE_CONTENT_DIR:osuProject>/Resources/osu"
         COMMAND ${CMAKE_COMMAND} -E rm -rf "$<TARGET_BUNDLE_CONTENT_DIR:osuProject>/Resources/font"
 
-        # 2) 폴더 통째로 복사 (이러면 light.png가 겹쳐도 폴더가 달라 상관없음)
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/osu" "$<TARGET_BUNDLE_CONTENT_DIR:osuProject>/Resources/osu"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/font" "$<TARGET_BUNDLE_CONTENT_DIR:osuProject>/Resources/font"
 
-        # 3) 개별 루트 파일들 복사
+
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/effect.png" "$<TARGET_BUNDLE_CONTENT_DIR:osuProject>/Resources/"
         COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/output.wav" "$<TARGET_BUNDLE_CONTENT_DIR:osuProject>/Resources/"
 
-        # 4) BASS 라이브러리 복사 및 경로 수정 (이전과 동일)
         COMMAND ${CMAKE_COMMAND} -E copy "${BASS_LIB}" "$<TARGET_FILE_DIR:osuProject>/"
         COMMAND install_name_tool -change "libbass.dylib" "@executable_path/libbass.dylib" "$<TARGET_FILE:osuProject>"
 )
+
+target_link_libraries(osuProject sqlite3)

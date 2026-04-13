@@ -150,21 +150,44 @@ void Note::update(long long currentTime, float speed, float hitLineY) {
 
 JudgeResult Judgment::judge(long long key_time, long long map_time) {
     long long diff = std::abs(key_time - map_time);
-    if (diff < 50) { score += 100; combo++; return JudgeResult::Perfect; }
-    else if (diff < 80){score += 70; combo++; return JudgeResult::Great;}
-    else if (diff < 120) { score += 50; combo++; return JudgeResult::Good; }
-    else if (diff < 170) { BREAK(); return JudgeResult::Miss; }
+    if (diff < 70) {
+        score += 100; combo++;
+        if (hp<=98) {
+            hp+=2;
+        }
+        return JudgeResult::Perfect;
+    }
+    else if (diff < 120 ) {
+        score += 70; combo++;
+        if (hp<=98) {
+            hp+=2;
+        }
+        return JudgeResult::Great;
+    }
+    else if (diff < 170) {
+        score += 50; combo++;
+        if (hp<=98) {
+            hp+=2;
+        }
+        return JudgeResult::Good;
+    }
+    else if (diff < 220) {
+        BREAK();
+        return JudgeResult::Miss;
+    }
     return JudgeResult::None;
 }
 void Judgment::update(int dt, sf::Text& text) {
 
 }
 
-void Judgment::BREAK() { combo = 0; }
+void Judgment::BREAK() { combo = 0; hp -= 10;}
 
 int Judgment::getScore() const { return score; }
 
 int Judgment::getCombo() const { return combo; }
+
+int Judgment::getHp() const { return hp; }
 
 
 std::deque<Note> parseOsuMania(std::string filePath) {
