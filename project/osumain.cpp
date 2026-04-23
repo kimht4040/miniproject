@@ -475,6 +475,10 @@ GameState PlayGame(sf::RenderWindow& window, const string &osuFile, const string
         for (int i = 0; i < 4; ++i) {
             while (!laneNotes[i].empty()) {
                 Note& front = laneNotes[i].front();
+                if (front.isProcessed) {
+                    laneNotes[i].pop_front();
+                    continue;
+                }
 
                 long long deadline = (front.isLongNote && front.isHolding) ? front.endTime : front.startTime;
 
@@ -513,7 +517,7 @@ GameState PlayGame(sf::RenderWindow& window, const string &osuFile, const string
                         if (!laneNotes[i].empty()) {
                             for (auto it = laneNotes[i].begin(); it != laneNotes[i].end(); ++it) {
                                 Note& target = *it;
-                                if (target.isHolding) {
+                                if (target.isProcessed || target.isHolding) {
                                     continue;
                                 }
 
@@ -548,11 +552,13 @@ GameState PlayGame(sf::RenderWindow& window, const string &osuFile, const string
                                     }
 
                                     if (res == JudgeResult::Miss) {
-                                        laneNotes[i].erase(it);
+                                        //laneNotes[i].erase(it);
+                                        target.isProcessed = true;
                                     } else if (target.isLongNote) {
                                         target.isHolding = true;
                                     } else {
-                                        laneNotes[i].erase(it);
+                                        //laneNotes[i].erase(it);
+                                        target.isProcessed = true;
                                     }
 
                                     break;
@@ -608,7 +614,7 @@ GameState PlayGame(sf::RenderWindow& window, const string &osuFile, const string
                                         judgeText.setScale({1.5f, 1.5f});
                                     }
                                 }
-                                laneNotes[i].pop_front();
+                                target.isProcessed = true;
                             }
                         }
                     }
